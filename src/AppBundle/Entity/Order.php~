@@ -1,0 +1,421 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Order
+ *
+ * @ORM\Table(name="`order`")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\OrdersRepository")
+ */
+class Order
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\ManyToOne(targetEntity="Restaurant", inversedBy="ordersList")
+     */
+    private $restaurant;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="precisions", type="text", nullable=true)
+     */
+    private $precisions;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="client_name", type="string", length=255)
+     */
+    private $clientName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="client_phone", type="string", length=10)
+     */
+    private $clientPhone;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="restaurant_comments", type="text", nullable=true)
+     */
+    private $restaurantComments;
+
+    /**
+     * @var OrderType
+     *
+     * @ORM\ManyToOne(targetEntity="OrderType")
+     */
+    private $type;
+
+    /**
+     * @var OrderStatusHour
+     *
+     * @ORM\OneToMany(targetEntity="OrderStatusHour", mappedBy="order")
+     */
+    private $statusList;
+
+    /**
+     * @var Product[]
+     *
+     * @ORM\ManyToOne(targetEntity="Business", inversedBy="ordersList")
+     */
+    private $business;
+
+    /**
+     * @var Product[]
+     *
+     * @ORM\OneToMany(targetEntity="OrderProduct", mappedBy="order")
+     */
+    private $productsList;
+
+    /**
+     * @var Product[]
+     *
+     * @ORM\OneToMany(targetEntity="OrderMenu", mappedBy="order")
+     */
+    private $menusList;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="hourToBeReady", type="datetime")
+     */
+    private $hourToBeReady;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reference", type="string", length=255)
+     */
+    private $reference;
+
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set restaurant
+     *
+     * @param string $restaurant
+     *
+     * @return Order
+     */
+    public function setRestaurant($restaurant)
+    {
+        $this->restaurant = $restaurant;
+
+        return $this;
+    }
+
+    /**
+     * Get restaurant
+     *
+     * @return string
+     */
+    public function getRestaurant()
+    {
+        return $this->restaurant;
+    }
+
+    /**
+     * Set precisions
+     *
+     * @param string $precisions
+     *
+     * @return Order
+     */
+    public function setPrecisions($precisions)
+    {
+        $this->precisions = $precisions;
+
+        return $this;
+    }
+
+    /**
+     * Get precisions
+     *
+     * @return string
+     */
+    public function getPrecisions()
+    {
+        return $this->precisions;
+    }
+
+    /**
+     * Set clientName
+     *
+     * @param string $clientName
+     *
+     * @return Order
+     */
+    public function setClientName($clientName)
+    {
+        $this->clientName = $clientName;
+
+        return $this;
+    }
+
+    /**
+     * Get clientName
+     *
+     * @return string
+     */
+    public function getClientName()
+    {
+        return $this->clientName;
+    }
+
+    /**
+     * Set clientPhone
+     *
+     * @param string $clientPhone
+     *
+     * @return Order
+     */
+    public function setClientPhone($clientPhone)
+    {
+        $this->clientPhone = $clientPhone;
+
+        return $this;
+    }
+
+    /**
+     * Get clientPhone
+     *
+     * @return string
+     */
+    public function getClientPhone()
+    {
+        return $this->clientPhone;
+    }
+
+    /**
+     * Set restaurantComments
+     *
+     * @param string $restaurantComments
+     *
+     * @return Order
+     */
+    public function setRestaurantComments($restaurantComments)
+    {
+        $this->restaurantComments = $restaurantComments;
+
+        return $this;
+    }
+
+    /**
+     * Get restaurantComments
+     *
+     * @return string
+     */
+    public function getRestaurantComments()
+    {
+        return $this->restaurantComments;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Order
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->productsList = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add statusList
+     *
+     * @param \AppBundle\Entity\OrderStatusHour $statusList
+     *
+     * @return Order
+     */
+    public function addStatusList(\AppBundle\Entity\OrderStatusHour $statusList)
+    {
+        $this->statusList[] = $statusList;
+
+        return $this;
+    }
+
+    /**
+     * Remove statusList
+     *
+     * @param \AppBundle\Entity\OrderStatusHour $statusList
+     */
+    public function removeStatusList(\AppBundle\Entity\OrderStatusHour $statusList)
+    {
+        $this->statusList->removeElement($statusList);
+    }
+
+    /**
+     * Get statusList
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStatusList()
+    {
+        return $this->statusList;
+    }
+
+    /**
+     * Add productsList
+     *
+     * @param \AppBundle\Entity\OrderProduct $productsList
+     *
+     * @return Order
+     */
+    public function addProductsList(\AppBundle\Entity\OrderProduct $productsList)
+    {
+        $this->productsList[] = $productsList;
+
+        return $this;
+    }
+
+    /**
+     * Remove productsList
+     *
+     * @param \AppBundle\Entity\OrderProduct $productsList
+     */
+    public function removeProductsList(\AppBundle\Entity\OrderProduct $productsList)
+    {
+        $this->productsList->removeElement($productsList);
+    }
+
+    /**
+     * Get productsList
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductsList()
+    {
+        return $this->productsList;
+    }
+
+    /**
+     * Set reference
+     *
+     * @param string $reference
+     *
+     * @return Order
+     */
+    public function setReference($reference)
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    /**
+     * Get reference
+     *
+     * @return string
+     */
+    public function getReference()
+    {
+        return $this->reference;
+    }
+
+    /**
+     * Set hourToBeReady
+     *
+     * @param \DateTime $hourToBeReady
+     *
+     * @return Order
+     */
+    public function setHourToBeReady($hourToBeReady)
+    {
+        $this->hourToBeReady = $hourToBeReady;
+
+        return $this;
+    }
+
+    /**
+     * Get hourToBeReady
+     *
+     * @return \DateTime
+     */
+    public function getHourToBeReady()
+    {
+        return $this->hourToBeReady->format("Y-m-d H:i:s");
+    }
+
+    /**
+     * Add menusList
+     *
+     * @param \AppBundle\Entity\OrderMenu $menusList
+     *
+     * @return Order
+     */
+    public function addMenusList(\AppBundle\Entity\OrderMenu $menusList)
+    {
+        $this->menusList[] = $menusList;
+
+        return $this;
+    }
+
+    /**
+     * Remove menusList
+     *
+     * @param \AppBundle\Entity\OrderMenu $menusList
+     */
+    public function removeMenusList(\AppBundle\Entity\OrderMenu $menusList)
+    {
+        $this->menusList->removeElement($menusList);
+    }
+
+    /**
+     * Get menusList
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMenusList()
+    {
+        return $this->menusList;
+    }
+}
