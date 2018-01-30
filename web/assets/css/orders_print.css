@@ -1,0 +1,31 @@
+.ticket {
+    background: white;
+}
+.btn-impr, .titre-page {
+    display: none;
+}
+.commande-total {
+    width: 79%;
+}
+.commande-prix-total {
+    width: 15%;
+}
+.ticket-partie {
+    border-top: 1px solid black;
+    padding: 15px;
+}
+.inline {
+    display: inline-block;
+}
+.commande-qtt {
+    width: 4%;
+}
+.commande-contenu {
+    border-left: 1px solid black; width: 73%; padding-left: 2%;
+}
+.commande-prix {
+    border-left: 1px solid black; width: 13%; padding-left: 2%;
+}
+.commande {
+    width: 100%;
+}

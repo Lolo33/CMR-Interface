@@ -1,0 +1,57 @@
+.commande-1 {
+    width: 80%;
+    background: white;
+    padding: 10px;
+    border: 1px solid lightslategrey;
+    margin: 0 auto 20px;
+    -webkit-box-shadow: 10px 10px 0px 0px lightgrey;
+    -moz-box-shadow: 10px 10px 0px 0px lightgrey;
+    box-shadow: 10px 10px 0px 0px lightgrey;
+}
+.produit {
+    background: #F5F5F5;
+    padding: 5px 10px;
+}
+.margin-bot {
+    margin-bottom: 10px;
+}
+
+#btn-print {
+    width: 40%;
+    margin: auto;
+}
+.no-border {
+    border-left: none;
+}
+.ticket {
+    width: 40%;
+    background: white;
+    margin: 20px auto;
+    border: 1px solid black;
+    border-top: none;
+}
+.commande-total {
+    width: 79%;
+}
+.commande-prix-total {
+    width: 15%;
+}
+.ticket-partie {
+    border-top: 1px solid black;
+    padding: 15px;
+}
+.inline {
+    display: inline-block;
+}
+.commande-qtt {
+    width: 4%;
+}
+.commande-contenu {
+    border-left: 1px solid black; width: 73%; padding-left: 2%;
+}
+.commande-prix {
+    border-left: 1px solid black; width: 13%; padding-left: 2%;
+}
+.commande {
+    width: 100%;
+}

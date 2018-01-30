@@ -1,0 +1,66 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/orders.css') }}" rel="stylesheet" type="text/css" media="screen" >
+    <link href="{{ asset('assets/css/orders_print.css') }}" rel="stylesheet" type="text/css" media="print">
+{% endblock %}
+
+{% block title %}Commande {{ order.reference }}{% endblock %}
+
+{% block body %}
+<h1 class="titre-page">Commande {{ order.reference }}</h1>
+
+    <div class="row ticket">
+
+            <div class="ticket-partie commande">
+                Restaurant {{ order.restaurant.name }}<br />
+                {{ order.restaurant.adressLine1 }}<br />
+                {% if order.restaurant.adressLine2 %}
+                    {{ order.restaurant.adressLine2 }}<br />
+                {% endif %}
+                {{ order.restaurant.countryCode }}, {{ order.restaurant.city }}<br />
+                0554129856<br />
+            </div>
+
+            <div class="ticket-partie commande">
+                Date de la commande : {{ order.hourToBeReady }}<br />
+                Date du ticket : {{ ajd }}<br />
+            </div>
+
+
+        <div class="ticket-partie commande">
+
+            {% for orderProd in order.productsList %}
+                <div class="commande">
+                    <div class="commande-qtt inline">1</div>
+                    <div class="commande-contenu inline">{{ orderProd.product.name }}</div>
+                    <div class="commande-prix inline">{{ orderProd.product.price }} €</div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <div class="ticket-partie commande">
+            <div class="commande">
+                <div class="commande-qtt inline"></div>
+                <div class="commande-contenu inline no-border">Pris en charge par la société de livraison</div>
+                <div class="commande-prix inline no-border">{{ order.amountTakenByBuisness }} €</div>
+            </div>
+            <div class="commande">
+                <div class="commande-qtt no-border inline"></div>
+                <div class="commande-contenu inline">Total HT</div>
+                <div class="commande-prix inline">{{ order.getTotalHT }} €</div>
+            </div>
+            <div class="commande">
+                <div class="commande-qtt no-border inline"></div>
+                <div class="commande-contenu inline">Total TTC</div>
+                <div class="commande-prix inline">{{ order.getTotalHT }} €</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="btn-impr text-center">
+        <button id="btn-print" class="btn btn-primary" onclick="window.print();">Imprimer le ticket</button>
+    </div>
+
+{% endblock %}

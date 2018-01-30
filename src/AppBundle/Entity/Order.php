@@ -52,6 +52,34 @@ class Order
     /**
      * @var string
      *
+     * @ORM\Column(name="client_adress_l1", type="string", length=255)
+     */
+    private $clientAdressLine1;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="client_adress_l2", type="string", length=255)
+     */
+    private $clientAdressLine2;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="client_country_code", type="string", length=10)
+     */
+    private $clientCountryCode;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="client_city", type="string", length=255)
+     */
+    private $clientCity;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="restaurant_comments", type="text", nullable=true)
      */
     private $restaurantComments;
@@ -105,7 +133,28 @@ class Order
      */
     private $reference;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="amount_taken_by_buisness", type="float")
+     */
+    private $amount_taken_by_buisness;
 
+
+
+    public function getTotalHT(){
+        $prix = 0;
+        foreach ($this->getProductsList() as $orderProduct)
+            $prix += $orderProduct->getPriceHT();
+        return Globals::formaterPrix(round($prix, 2));
+    }
+
+    public function getTotalTTC(){
+        $prix = 0;
+        foreach ($this->getProductsList() as $orderProduct)
+            $prix += $orderProduct->getPriceTTC();
+        return Globals::formaterPrix(round($prix, 2));
+    }
 
     /**
      * Get id
@@ -441,5 +490,125 @@ class Order
     public function getBusiness()
     {
         return $this->business;
+    }
+
+    /**
+     * Set amountTakenByBuisness
+     *
+     * @param float $amountTakenByBuisness
+     *
+     * @return Order
+     */
+    public function setAmountTakenByBuisness($amountTakenByBuisness)
+    {
+        $this->amount_taken_by_buisness = $amountTakenByBuisness;
+
+        return $this;
+    }
+
+    /**
+     * Get amountTakenByBuisness
+     *
+     * @return float
+     */
+    public function getAmountTakenByBuisness()
+    {
+        return $this->amount_taken_by_buisness;
+    }
+
+    /**
+     * Set clientAdressLine1
+     *
+     * @param string $clientAdressLine1
+     *
+     * @return Order
+     */
+    public function setClientAdressLine1($clientAdressLine1)
+    {
+        $this->clientAdressLine1 = $clientAdressLine1;
+
+        return $this;
+    }
+
+    /**
+     * Get clientAdressLine1
+     *
+     * @return string
+     */
+    public function getClientAdressLine1()
+    {
+        return $this->clientAdressLine1;
+    }
+
+    /**
+     * Set clientAdressLine2
+     *
+     * @param string $clientAdressLine2
+     *
+     * @return Order
+     */
+    public function setClientAdressLine2($clientAdressLine2)
+    {
+        $this->clientAdressLine2 = $clientAdressLine2;
+
+        return $this;
+    }
+
+    /**
+     * Get clientAdressLine2
+     *
+     * @return string
+     */
+    public function getClientAdressLine2()
+    {
+        return $this->clientAdressLine2;
+    }
+
+    /**
+     * Set clientCountryCode
+     *
+     * @param string $clientCountryCode
+     *
+     * @return Order
+     */
+    public function setClientCountryCode($clientCountryCode)
+    {
+        $this->clientCountryCode = $clientCountryCode;
+
+        return $this;
+    }
+
+    /**
+     * Get clientCountryCode
+     *
+     * @return string
+     */
+    public function getClientCountryCode()
+    {
+        return $this->clientCountryCode;
+    }
+
+    /**
+     * Set clientCity
+     *
+     * @param string $clientCity
+     *
+     * @return Order
+     */
+    public function setClientCity($clientCity)
+    {
+        $this->clientCity = $clientCity;
+
+        return $this;
+    }
+
+    /**
+     * Get clientCity
+     *
+     * @return string
+     */
+    public function getClientCity()
+    {
+        return $this->clientCity;
     }
 }

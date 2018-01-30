@@ -1,0 +1,39 @@
+list_current_orders:
+    path:     current-orders
+    defaults: { _controller: AppBundle:Order:listCurrentOrders }
+
+list_all_orders:
+    path:     all-orders
+    defaults: { _controller: AppBundle:Order:listAllOrders }
+
+show_order:
+    path:     orders/{id}
+    defaults: { _controller: AppBundle:Order:showOrder }
+
+post_order:
+    path:     add-order
+    defaults: { _controller: AppBundle:Order:postOrder }
+
+get_partnership:
+    path:     my-partners
+    defaults: { _controller: AppBundle:Partnership:getPartnership }
+
+post_partnership:
+    path:     post-partners/{id}
+    defaults: { _controller: AppBundle:Partnership:postPartnership }
+
+delete_partnership:
+    path:     delete-partners/{id}
+    defaults: { _controller: AppBundle:Partnership:deletePartnership }
+
+get_partner:
+    path:     partner/{id}
+    defaults: { _controller: AppBundle:Partnership:getPartner }
+
+get_payment_modes:
+    path:     payment-mode
+    defaults: { _controller: AppBundle:PaymentMode:getPaymentModes }
+
+post_payment_mode:
+    path:     add-payment-mode
+    defaults: { _controller: AppBundle:PaymentMode:postPaymentMode }

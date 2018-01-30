@@ -1,0 +1,98 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/orders.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}Liste de vos commandes{% endblock %}
+
+{% block body %}
+    <h1 class="titre-page">Vos commandes</h1>
+
+    <div style="width: 80%; margin: auto;">
+        {% if app.request.attributes.get('_route') == "list_current_orders" %}
+            <a href="{{ path("list_all_orders") }}">Voir toutes les commandes</a>
+        {% else %}
+            <a href="{{ path("list_current_orders") }}">Voir les commandes d'aujourd'hui</a>
+        {% endif %}
+    </div>
+
+    {% if orders is not empty %}
+        {% for order in orders %}
+            <div class="commande-1" onclick="document.location.replace('orders/{{ order.id }}');">
+                <h2>Commande : {{ order.reference }}</h2>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <strong>Statut</strong> : {{ order.statusList.last.status.name }}<br />
+                        <strong>Société</strong> : {{ order.business.name }}<br />
+                        <strong>Type</strong> : {{ order.type.name }}<br />
+                        <strong>Client</strong> : {{ order.clientName }} - {{ order.clientPhone }}<br />
+                        <strong>Heure</strong> : {{ order.hourToBeReady }}<br />
+                        <strong>Adresse de livraison</strong> : {{ order.clientAdressLine1 }} {{  order.clientAdressLine2 }} {{ order.clientCountryCode }} {{ order.clientCity }}
+                    </div>
+                    <div class="col-lg-9">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nom du produit</th>
+                                    <th scope="col">Propriétés</th>
+                                    <th scope="col">Suppléments</th>
+                                    <th scope="col">TVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for orderProduct in order.productsList %}
+
+                                <tr class="table-light">
+                                    <td>{{ orderProduct.product.name }}</td>
+                                    <td>
+                                        {% for propriete in orderProduct.optionsList %}
+                                            {{ propriete.name }} /
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        {% for supplement in orderProduct.supplementsList %}
+                                            + {{ supplement.name }}
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        {{ orderProduct.product.vat.rate }} %
+                                    </td>
+                                    <td>
+                                        {{ orderProduct.getPriceHT }} €
+                                    </td>
+                                    <td>
+                                        {{ orderProduct.getPriceTTC }} €
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <strong>Pris en charge par LRQL : {{ order.amountTakenByBuisness }} €</strong>
+                    </div>
+                    <div class="col-lg-2">
+                        <strong>Total HT : {{ order.getTotalHT }} €</strong><br />
+                    </div>
+                    <div class="col-lg-2">
+                        <strong>Total TTC : {{ order.getTotalTTC }} €</strong>
+                    </div>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-1">
+                        <span class="glyphicon glyphicon-print"></span>
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="commande-1" style="background: indianred;">
+            <h2 class="text-center white" style="padding-top: 5px; color: white;">Aucune commande à afficher</h2>
+        </div>
+    {% endif %}
+{% endblock %}

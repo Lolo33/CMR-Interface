@@ -28,6 +28,13 @@ class OrderType
      */
     private $name;
 
+    /**
+     * @var string
+     *
+     * @ORM\OneToMany(targetEntity="RestaurantPaymentMode", mappedBy="orderType")
+     */
+    private $restaurantPaymentMode;
+
 
     /**
      * Get id
@@ -62,5 +69,45 @@ class OrderType
     {
         return $this->name;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->restaurantPaymentMode = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add restaurantPaymentMode
+     *
+     * @param \AppBundle\Entity\RestaurantPaymentMode $restaurantPaymentMode
+     *
+     * @return OrderType
+     */
+    public function addRestaurantPaymentMode(\AppBundle\Entity\RestaurantPaymentMode $restaurantPaymentMode)
+    {
+        $this->restaurantPaymentMode[] = $restaurantPaymentMode;
+
+        return $this;
+    }
+
+    /**
+     * Remove restaurantPaymentMode
+     *
+     * @param \AppBundle\Entity\RestaurantPaymentMode $restaurantPaymentMode
+     */
+    public function removeRestaurantPaymentMode(\AppBundle\Entity\RestaurantPaymentMode $restaurantPaymentMode)
+    {
+        $this->restaurantPaymentMode->removeElement($restaurantPaymentMode);
+    }
+
+    /**
+     * Get restaurantPaymentMode
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRestaurantPaymentMode()
+    {
+        return $this->restaurantPaymentMode;
+    }
+}

@@ -41,12 +41,16 @@ class ReponseException extends \Exception {
 class Requetes
 {
     protected $url;
-    //protected $header;
+    protected $header;
 
-    public function __construct($url)
+    const API_KEY = "CW3tbH8v/SLvFG8/y0UPIOnenuw=";
+    const API_URL = "http://connectmyresto.com/api";
+    const API_URL_LOCAL = "http://localhost/cmr/api/web/app_dev.php";
+
+    public function __construct($url, $api_key)
     {
         $this->url = $url;
-        //$this->header = array("Autorisation: " . $api_key);
+        $this->header = array("Authorisation: " . $api_key);
     }
 
     /**
@@ -55,11 +59,12 @@ class Requetes
      * @return mixed
      * @throws \Exception                levée si la requête produit une erreur (réultat FALSE)
      */
-    protected function sendPostRequest($content)
+    public function sendPostRequest($content)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $this->url);
         curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $this->header);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -84,6 +89,7 @@ class Requetes
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $this->url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $this->header);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $result = curl_exec($curl);
@@ -103,10 +109,11 @@ class Requetes
         return $result;
     }
 
-    protected function sendDeleteRequest()
+    public function sendDeleteRequest()
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $this->url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $this->header);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);

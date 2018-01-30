@@ -22,4 +22,16 @@ class Globals
         return \FOS\RestBundle\View\View::create(['message' => $message], Response::HTTP_FORBIDDEN);
     }
 
+    public static function formaterPrix($prix){
+    $prix_tab = explode(".", $prix);
+    if (strlen($prix_tab[0]) == 1)
+        $prix = "0".$prix;
+    if (isset($prix_tab[1])) {
+        if (strlen($prix_tab[1]) == 1)
+            $prix .= "0";
+    }else{
+        $prix .= ".00";
+    }
+    return $prix;
+}
 }

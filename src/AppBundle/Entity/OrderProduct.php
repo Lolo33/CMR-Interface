@@ -53,6 +53,24 @@ class OrderProduct
 
 
 
+    public function getPriceTTC(){
+        $price = $this->product->getPrice() + ($this->product->getPrice() * ($this->product->getVat()->getRate() / 100));
+        foreach ($this->optionsList as $opt)
+            $price += $opt->getPrice();
+        foreach ($this->supplementsList as $sup)
+            $price += $sup->getPrice();
+        return Globals::formaterPrix(round($price, 2));
+    }
+
+    public function getPriceHT(){
+        $price = $this->product->getPrice();
+        foreach ($this->optionsList as $opt)
+            $price += $opt->getPrice();
+        foreach ($this->supplementsList as $sup)
+            $price += $sup->getPrice();
+        return Globals::formaterPrix(round($price, 2));
+    }
+
     /**
      * Get id
      *

@@ -1,0 +1,46 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Partnership:getPartnership{% endblock %}
+
+{% block body %}
+
+    <h1 class="titre-page">Mes partenariats</h1>
+
+    <div class="container">
+        <div class="row">
+            <table class="table table-hover">
+
+                <thead>
+                <tr style="background: lightslategrey; color: white;">
+                    <th scope="col">Nom de la société</th>
+                    <th scope="col">Comission</th>
+                    <th scope="col">Etat</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="table-light">
+                        {% for partner in partners %}
+                            <td> {{ partner.business.name }} </td>
+                            <td> {{ partner.value }} % </td>
+                            {% if partner.accepted %}
+                                <td class="text-success">Accepté</td>
+                                <td>
+                                    <a href="{{ path("delete_partnership", {"id": partner.id}) }}"><button class="btn btn-danger">Annuler ce partenariat</button></a>
+                                </td>
+                            {% else %}
+                                <td class="text-danger">Refusé</td>
+                                <td>
+                                    <a href="{{ path("post_partnership", {"id": partner.id}) }}"><button class="btn btn-primary">Accepter le contrat</button></a>
+                                </td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

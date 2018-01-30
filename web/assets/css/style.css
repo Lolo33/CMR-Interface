@@ -1,0 +1,25 @@
+body {
+    margin-bottom: 20px;
+    background: #F5F5F5;
+}
+.titre-page {
+    padding: 30px;
+    margin-bottom: 40px;
+    background: #589181;
+    color: white;
+    text-align: center;
+}
+.form-normal {
+    background: white; padding: 2%; border: 1px solid lightslategrey;
+}
+.zone-btn {
+    width: 100%;
+    text-align: right;
+}
+.btn-large {
+    min-width: 20%;
+}
+.bandeau {
+    background: lightslategrey; padding: 10px 10px 0;
+    margin: 0;
+}

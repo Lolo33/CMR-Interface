@@ -1,0 +1,80 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/payment-modes.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}Gestion des modes de paiement{% endblock %}
+
+{% block body %}
+
+    <h1 class="titre-page">Gérer mes moyens de paiements</h1>
+
+    <div class="container">
+        <form method="post" action="{{ path("post_payment_mode") }}">
+
+            {% for type in orderTypes %}
+                <div class="form-payment">
+
+                    <div class="row bandeau">
+                        <div class="col-lg-9">
+                            <h3 class="white">{{ type.name }}</h3>
+                        </div>
+                        <div class="col-lg-3">
+                            <input formnovalidate="formnovalidate" type="checkbox" class="chk-all" id="all-{{ type.id }}">
+                            <label class="white" id="l-all-{{ type.id }}" for="all-{{ type.id }}">Tout cocher</label>
+                        </div>
+                    </div>
+
+                    <div class="row payment-modes">
+                        {% for pm in paymentModes %}
+                            {% set checked = "" %}
+                            {% for pmRest in restaurantPMs %}
+                                {% if pmRest.paymentMode.id == pm.id and pmRest.orderType.id == type.id %}
+                                    {% set checked = "checked" %}
+                                {% endif %}
+                            {% endfor %}
+                            <div class="col-lg-6">
+                                <input class="t-{{ type.id }}" type="checkbox" style="width: 40px; height: 30px;" {{ checked }} id="pm-{{ type.id }}#{{ pm.id }}" name="{{ type.id }},{{ pm.id }}">
+                                <label style="width: 90%;" for="pm-{{ type.id }}#{{ pm.id }}">
+                                    <div class="card border-info mb-3" style="width: 100%;">
+                                        <div class="card-header">{{ pm.modeName }}</div>
+                                        <div class="card-body text-info">
+                                            <h4 class="card-title">{{ pm.modeName }}</h4>
+                                            <p class="card-text">{{ pm.modeDescription }}</p>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            {% endfor %}
+
+            <div class="zone-btn">
+                <input type="submit" class="btn btn-success btn-large" value="Sauvegarder">
+            </div>
+
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(".chk-all").change(function () {
+            var typeId = $(this).attr("id").substr(4);
+            var selecteurType = $(".t-" + typeId);
+            if ($(this).prop("checked") == true) {
+                selecteurType.prop("checked", true);
+                $("#l-all-" + typeId).text("Tout décocher");
+            }else {
+                selecteurType.prop("checked", false);
+                $("#l-all-" + typeId).text("Tout cocher");
+            }
+        });
+    </script>
+
+{% endblock %}

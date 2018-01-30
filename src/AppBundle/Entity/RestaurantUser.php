@@ -3,15 +3,30 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * RestaurantUser
  *
+ *
  * @ORM\Table(name="restaurant_user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RestaurantUserRepository")
  */
-class RestaurantUser
+class RestaurantUser extends BaseUser
 {
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_USER = 'ROLE_USER';
+
     /**
      * @var int
      *
@@ -19,42 +34,21 @@ class RestaurantUser
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255)
-     */
-    private $email;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=255)
-     */
-    private $username;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=255)
-     */
-    private $password;
+    protected $id;
 
     /**
      * @var RestaurantUserRank
      *
      * @ORM\ManyToOne(targetEntity="RestaurantUserRank")
      */
-    private $rank;
+    protected $rank;
 
     /**
      * @var Restaurant
      *
      *  @ORM\ManyToOne(targetEntity="Restaurant")
      */
-    private $restaurant;
+    protected $restaurant;
 
 
     /**
