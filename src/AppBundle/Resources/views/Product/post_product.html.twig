@@ -1,0 +1,45 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Product:postProduct{% endblock %}
+
+{% block body %}
+    <h1 class="titre-page">Ajouter un produit - {{ category.name }}</h1>
+
+    <div class="container">
+
+        <h2>Etape 1 - Ajout des informations d'un produit</h2>
+
+        <div class="form-normal">
+            {{ form_start(formProduct) }}
+            <div class="form-group">
+                {{ form_widget(formProduct.name, { 'attr': {'class': 'form-control', "placeholder": "Nom du produit"} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_widget(formProduct.description, { 'attr': {'class': 'form-control', "placeholder": "Description du produit"} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_widget(formProduct.price, { 'attr': {'class': 'form-control', "placeholder": "Prix du produit"} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_widget(formProduct.vat, { 'attr': {'class': 'form-control', "placeholder": "Prix du produit"} }) }}
+            </div>
+            <div class="form-check margin-bottom">
+                <label class="form-check-label">
+                    {{ form_widget(formProduct.isTakeAwayAuthorized, { 'attr': {'type': 'checkbox', 'class': 'form-check-input', "placeholder": "Prix du produit"} }) }}
+                    Peut être commandé à emporter
+                </label>
+            </div>
+            {#<div class="custom-control custom-checkbox">
+                {{ form_widget(formProduct.isTakeAwayAuthorized, { 'attr': {'type': 'checkbox', 'class': 'custom-control-input', "placeholder": "Prix du produit"} }) }}
+                <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+            </div>#}
+            <div class="zone-btn">
+                <input type="submit" class="btn btn-success" value="Ajouter ce produit" />
+            </div>
+            {{ form_end(formProduct) }}
+        </div>
+    </div>
+
+
+
+{% endblock %}

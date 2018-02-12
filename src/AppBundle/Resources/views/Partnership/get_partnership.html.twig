@@ -20,23 +20,23 @@
                 </thead>
 
                 <tbody>
+                {% for partner in partners %}
                     <tr class="table-light">
-                        {% for partner in partners %}
-                            <td> {{ partner.business.name }} </td>
-                            <td> {{ partner.value }} % </td>
-                            {% if partner.accepted %}
-                                <td class="text-success">Accepté</td>
-                                <td>
-                                    <a href="{{ path("delete_partnership", {"id": partner.id}) }}"><button class="btn btn-danger">Annuler ce partenariat</button></a>
-                                </td>
-                            {% else %}
-                                <td class="text-danger">Refusé</td>
-                                <td>
-                                    <a href="{{ path("post_partnership", {"id": partner.id}) }}"><button class="btn btn-primary">Accepter le contrat</button></a>
-                                </td>
-                            {% endif %}
-                        {% endfor %}
+                        <td> {{ partner.business.name }} </td>
+                        <td> {{ partner.value }} % </td>
+                        {% if partner.accepted %}
+                            <td class="text-success">Accepté</td>
+                            <td>
+                                <a href="{{ path("delete_partnership", {"id": partner.id}) }}"><button class="btn btn-danger">Annuler ce partenariat</button></a>
+                            </td>
+                        {% else %}
+                            <td class="text-danger">Refusé</td>
+                            <td>
+                                <a href="{{ path("post_partnership", {"id": partner.id}) }}"><button class="btn btn-primary">Accepter le contrat</button></a>
+                            </td>
+                        {% endif %}
                     </tr>
+                {% endfor %}
                 </tbody>
 
             </table>

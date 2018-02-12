@@ -28,6 +28,7 @@ security:
         - { path: ^/all-orders, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/my-partners, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/payment-mode, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/schedules, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }

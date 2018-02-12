@@ -25,9 +25,16 @@ class DeliveryTown
     /**
      * @var string
      *
-     * @ORM\Column(name="countryCode", type="string", length=10)
+     * @ORM\Column(name="Code_commune_INSEE", type="string", length=5)
      */
-    private $countryCode;
+    private $codeINSEE;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="Nom_Commune", type="string", length=38)
+     */
+    private $name;
 
     /**
      * @var Count
@@ -35,6 +42,14 @@ class DeliveryTown
      * @ORM\ManyToOne(targetEntity="Country")
      */
     private $country;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="Code_postal", type="integer", length=5)
+     */
+    private $countryCode;
+
 
     /**
      * @var Restaurant[]
@@ -141,4 +156,53 @@ class DeliveryTown
     {
         return $this->country;
     }
+
+    /**
+     * Set codeINSEE
+     *
+     * @param string $codeINSEE
+     *
+     * @return DeliveryTown
+     */
+    public function setCodeINSEE($codeINSEE)
+    {
+        $this->codeINSEE = $codeINSEE;
+
+        return $this;
+    }
+
+    /**
+     * Get codeINSEE
+     *
+     * @return string
+     */
+    public function getCodeINSEE()
+    {
+        return $this->codeINSEE;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return DeliveryTown
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
 }

@@ -1,0 +1,107 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Gestion de la carte{% endblock %}
+
+{% block body %}
+
+    <h1 class="titre-page">Gestion des produits de la carte</h1>
+
+    <div class="container">
+        <div class="bandeau">
+            <h3>Ajouter une catégorie de produits</h3>
+        </div>
+        <div class="conteneur-blc margin-bottom">
+            <form method="post" action="{{ path("post_category") }}">
+                <input name="name" type="text" required class="form-control" placeholder="Nom de la catégorie (Entrées, plats...)"/>
+                <textarea name="desc" required class="form-control  margin-bottom" placeholder="Description de la catégorie"></textarea>
+                <div class="zone-btn">
+                    <button class="btn btn-success">
+                        <span class="flaticon-add-document"></span> Ajouter une catégorie de produits
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        {% for cat in categories %}
+            <div class="bandeau">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <h3>{{ cat.name }}</h3>
+                    </div>
+                    <div class="col-lg-1">
+                        <span class="flaticon-rubbish-bin del-cat btn btn-dark" style="margin-top: -5px;" onclick="
+                                var conf = window.confirm('Effacer cette atégorie supprimera définitivement tous les produits qui y sont affiliés. Etes vous sur de vouloir supprimer cette catégorie ?');
+                                if (conf === true){
+                                document.location.replace('{{ path('delete_category', {'id': cat.id}) }}');
+                                }">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% if cat.productsList is not empty %}
+                <table class="table table-hover" style="margin-bottom: 0;">
+                    <tbody>
+                    {% for prod in cat.productsList %}
+                        <tr class="table-light">
+                            <td class="font-weight-bold">
+                                {{ prod.name }}
+                            </td>
+                            <td>
+                                {{ prod.description }}
+                            </td>
+                            <td>
+                                {% if not prod.isActive %}
+                                    <span class="text-danger">Non disponible</span>
+                                {% elseif prod.isSoldOut %}
+                                    <span class="text-warning">Rupture</span>
+                                {% else %}
+                                    <span class="text-success">Disponible</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% for prop in prod.properties %}
+                                    {{ prop.optionGroup.name }} -
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {{ prod.price }}€
+                            </td>
+                            <td>
+                                <button class="btn btn-primary">
+                                    <span class="flaticon-pencil-outline"></span>
+                                </button>
+                            </td>
+                            <td>
+                                <a href="{{ path("delete_product", {"id": prod.id}) }}">
+                                    <button class="btn btn-danger">
+                                        <span class="flaticon-rubbish-bin"></span>
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="conteneur-blc">
+                    <h3>Pas encore de produits dans cette catégorie</h3>
+                </div>
+            {% endif %}
+            <div class="text-center conteneur-blc margin-bottom">
+                <a href="{{ path("post_product", {"id": cat.id}) }}">
+                    <button class="btn btn-success">Ajouter un produit à cette catégorie</button>
+                </a>
+            </div>
+
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function onClicSuppr(id) {
+
+        }
+    </script>
+{% endblock %}

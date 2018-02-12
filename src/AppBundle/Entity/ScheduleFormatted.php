@@ -12,6 +12,7 @@ namespace AppBundle\Entity;
 class ScheduleFormatted
 {
 
+    private $id;
     private $date;
     private $day;
     private $dayString;
@@ -96,6 +97,7 @@ class ScheduleFormatted
         $this->schedule = $schedule;
         $this->date = $date;
         $this->lang = $lang;
+        $this->id = $schedule->getId();
         $this->day = $date->format("d");
         $this->month = $date->format("m");
         $this->year = $date->format("Y");
@@ -107,6 +109,23 @@ class ScheduleFormatted
             $this->status = "Fermé";
         $this->putDayInString();
         $this->putMonthInString();
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**

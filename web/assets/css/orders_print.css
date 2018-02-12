@@ -1,5 +1,9 @@
+body {
+    max-height: 200px;
+}
 .ticket {
     background: white;
+    font-size: 11px;
 }
 .btn-impr, .titre-page {
     display: none;
@@ -11,7 +15,7 @@
     width: 15%;
 }
 .ticket-partie {
-    border-top: 1px solid black;
+    border-top: 0.5px solid black;
     padding: 15px;
 }
 .inline {

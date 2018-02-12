@@ -5,8 +5,9 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link href="{{ asset('assets/css/bootstrap.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+        <link href="{{ asset("assets/icons/font/flaticon.css") }}" rel="stylesheet" />
         {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
+        <link rel="icon" type="image/icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -22,8 +23,8 @@
                 <li class="nav-item {% if app.request.attributes.get('_route') == "homepage" %} active {% endif %}">
                     <a class="nav-link" href="{{ path("homepage") }}">Accueil</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Gérer la carte</a>
+                <li class="nav-item {% if app.request.attributes.get('_route') == "get_products" %} active {% endif %}">
+                    <a class="nav-link" href="{{ path("get_products") }}">Gérer la carte</a>
                 </li>
                 <li class="nav-item {% if app.request.attributes.get('_route') == "show_order" or app.request.attributes.get('_route') == "list_current_orders" or app.request.attributes.get('_route') == "list_all_orders" %} active {% endif %}">
                     <a class="nav-link" href="{{ path("list_current_orders") }}">Commandes</a>
@@ -33,6 +34,9 @@
                 </li>
                 <li class="nav-item {% if app.request.attributes.get('_route') == "get_payment_modes" %} active {% endif %}">
                     <a class="nav-link" href="{{ path("get_payment_modes") }}">Moyens de paiement</a>
+                </li>
+                <li class="nav-item {% if app.request.attributes.get('_route') == "get_schedules" %} active {% endif %}">
+                    <a class="nav-link" href="{{ path("get_schedules") }}">Horaires</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto" style="margin-right: 50px;">

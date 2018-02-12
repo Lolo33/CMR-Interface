@@ -37,3 +37,71 @@ get_payment_modes:
 post_payment_mode:
     path:     add-payment-mode
     defaults: { _controller: AppBundle:PaymentMode:postPaymentMode }
+
+get_schedules:
+    path:     schedules
+    defaults: { _controller: AppBundle:Schedule:getSchedules }
+
+post_schedule:
+    path:     add-schedule
+    defaults: { _controller: AppBundle:Schedule:postSchedule }
+
+update_schedule:
+    path:     upd-schedule
+    defaults: { _controller: AppBundle:Schedule:updateSchedule }
+
+delete_schedule:
+    path:     del-schedule/{id}
+    defaults: { _controller: AppBundle:Schedule:deleteSchedule }
+
+get_products:
+    path:     products
+    defaults: { _controller: AppBundle:Product:getProducts }
+
+get_product:
+    path:     products/{id}
+    defaults: { _controller: AppBundle:Product:getProduct }
+
+post_product:
+    path:     category/{id}/add-product
+    defaults: { _controller: AppBundle:Product:postProduct }
+
+delete_product:
+    path:     del-product/{id}
+    defaults: { _controller: AppBundle:Product:deleteProduct }
+
+post_category:
+    path:     add-category
+    defaults: { _controller: AppBundle:ProductCategory:postCategory }
+
+update_category:
+    path:     upd-category
+    defaults: { _controller: AppBundle:ProductCategory:updateCategory }
+
+delete_category:
+    path:     del-category/{id}
+    defaults: { _controller: AppBundle:ProductCategory:deleteCategory }
+
+get_properties:
+    path:     properties
+    defaults: { _controller: AppBundle:Property:getProperties }
+
+post_property:
+    path:     product/{id}/add-property
+    defaults: { _controller: AppBundle:Property:postProperty }
+
+post_product_property:
+    path:     product/{id}/add-prod-property
+    defaults: { _controller: AppBundle:Property:postProductProperty }
+
+get_supplements:
+    path:     product/{id}/supplements
+    defaults: { _controller: AppBundle:Supplement:getSupplements }
+
+post_supplement:
+    path:     product/{id}/add-supplement
+    defaults: { _controller: AppBundle:Supplement:postSupplement }
+
+post_product_supplement:
+    path:     product/{id}/add-prod-supplement
+    defaults: { _controller: AppBundle:Supplement:postProductSupplement }

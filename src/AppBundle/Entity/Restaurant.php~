@@ -100,16 +100,16 @@ class Restaurant extends Corporate
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="time_min_delivery", type="time", options={"default" : "01:00:00"})
+     * @ORM\Column(name="time_to_delivery", type="time", options={"default" : "01:00:00"})
      */
-    private $timeMinDelivery;
+    private $timeToDelivery;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="time_max_delivery", type="time", options={"default" : "01:00:00"})
+     * @ORM\Column(name="margin_delivery", type="time", options={"default" : "00:10:00"})
      */
-    private $timeMaxDelivery;
+    private $marginDelivery;
 
     /**
      * @var \DateTime
@@ -121,14 +121,14 @@ class Restaurant extends Corporate
     /**
      * @var double
      *
-     * @ORM\Column(name="latitude", type="decimal", precision=19, scale=15)
+     * @ORM\Column(name="latitude", type="decimal", precision=19, scale=15, nullable=true)
      */
     private $latitude;
 
     /**
      * @var double
      *
-     * @ORM\Column(name="longitude", type="decimal", precision=19, scale=15)
+     * @ORM\Column(name="longitude", type="decimal", precision=19, scale=15, nullable=true)
      */
     private $longitude;
 
@@ -692,50 +692,26 @@ class Restaurant extends Corporate
     }
 
     /**
-     * Set timeMinDelivery
+     * Set token
      *
-     * @param \DateTime $timeMinDelivery
+     * @param string $token
      *
      * @return Restaurant
      */
-    public function setTimeMinDelivery($timeMinDelivery)
+    public function setToken($token)
     {
-        $this->timeMinDelivery = $timeMinDelivery;
+        $this->token = $token;
 
         return $this;
     }
 
     /**
-     * Get timeMinDelivery
+     * Get token
      *
-     * @return \DateTime
+     * @return string
      */
-    public function getTimeMinDelivery()
+    public function getToken()
     {
-        return $this->timeMinDelivery;
-    }
-
-    /**
-     * Set timeMaxDelivery
-     *
-     * @param \DateTime $timeMaxDelivery
-     *
-     * @return Restaurant
-     */
-    public function setTimeMaxDelivery($timeMaxDelivery)
-    {
-        $this->timeMaxDelivery = $timeMaxDelivery;
-
-        return $this;
-    }
-
-    /**
-     * Get timeMaxDelivery
-     *
-     * @return \DateTime
-     */
-    public function getTimeMaxDelivery()
-    {
-        return $this->timeMaxDelivery;
+        return $this->token;
     }
 }

@@ -100,16 +100,16 @@ class Restaurant extends Corporate
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="time_min_delivery", type="time", options={"default" : "01:00:00"})
+     * @ORM\Column(name="time_to_delivery", type="time", options={"default" : "01:00:00"})
      */
-    private $timeMinDelivery;
+    private $timeToDelivery;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="time_max_delivery", type="time", options={"default" : "01:00:00"})
+     * @ORM\Column(name="margin_delivery", type="time", options={"default" : "00:10:00"})
      */
-    private $timeMaxDelivery;
+    private $marginDelivery;
 
     /**
      * @var \DateTime
@@ -121,14 +121,14 @@ class Restaurant extends Corporate
     /**
      * @var double
      *
-     * @ORM\Column(name="latitude", type="decimal", precision=19, scale=15)
+     * @ORM\Column(name="latitude", type="decimal", precision=19, scale=15, nullable=true)
      */
     private $latitude;
 
     /**
      * @var double
      *
-     * @ORM\Column(name="longitude", type="decimal", precision=19, scale=15)
+     * @ORM\Column(name="longitude", type="decimal", precision=19, scale=15, nullable=true)
      */
     private $longitude;
 
@@ -692,54 +692,6 @@ class Restaurant extends Corporate
     }
 
     /**
-     * Set timeMinDelivery
-     *
-     * @param \DateTime $timeMinDelivery
-     *
-     * @return Restaurant
-     */
-    public function setTimeMinDelivery($timeMinDelivery)
-    {
-        $this->timeMinDelivery = $timeMinDelivery;
-
-        return $this;
-    }
-
-    /**
-     * Get timeMinDelivery
-     *
-     * @return \DateTime
-     */
-    public function getTimeMinDelivery()
-    {
-        return $this->timeMinDelivery;
-    }
-
-    /**
-     * Set timeMaxDelivery
-     *
-     * @param \DateTime $timeMaxDelivery
-     *
-     * @return Restaurant
-     */
-    public function setTimeMaxDelivery($timeMaxDelivery)
-    {
-        $this->timeMaxDelivery = $timeMaxDelivery;
-
-        return $this;
-    }
-
-    /**
-     * Get timeMaxDelivery
-     *
-     * @return \DateTime
-     */
-    public function getTimeMaxDelivery()
-    {
-        return $this->timeMaxDelivery;
-    }
-
-    /**
      * Set token
      *
      * @param string $token
@@ -761,5 +713,53 @@ class Restaurant extends Corporate
     public function getToken()
     {
         return $this->token;
+    }
+
+    /**
+     * Set timeToDelivery
+     *
+     * @param \DateTime $timeToDelivery
+     *
+     * @return Restaurant
+     */
+    public function setTimeToDelivery($timeToDelivery)
+    {
+        $this->timeToDelivery = $timeToDelivery;
+
+        return $this;
+    }
+
+    /**
+     * Get timeToDelivery
+     *
+     * @return \DateTime
+     */
+    public function getTimeToDelivery()
+    {
+        return $this->timeToDelivery;
+    }
+
+    /**
+     * Set marginDelivery
+     *
+     * @param \DateTime $marginDelivery
+     *
+     * @return Restaurant
+     */
+    public function setMarginDelivery($marginDelivery)
+    {
+        $this->marginDelivery = $marginDelivery;
+
+        return $this;
+    }
+
+    /**
+     * Get marginDelivery
+     *
+     * @return \DateTime
+     */
+    public function getMarginDelivery()
+    {
+        return $this->marginDelivery;
     }
 }

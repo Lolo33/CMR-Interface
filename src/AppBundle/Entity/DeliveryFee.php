@@ -24,9 +24,9 @@ class DeliveryFee
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="DeliveryArea")
+     * @ORM\ManyToOne(targetEntity="DeliveryTown")
      */
-    private $deliveryArea;
+    private $deliveryTown;
 
     /**
      * @var float

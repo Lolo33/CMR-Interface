@@ -1,0 +1,124 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Gestion des horaires{% endblock %}
+
+{% block body %}
+    <h1 class="titre-page">Gérer mes horaires</h1>
+
+    <div class="container">
+
+        <!--<div class="bandeau" style="margin-top: 20px;">
+            <h3>Modifier un service</h3>
+        </div>
+        <div class="conteneur-blc" id="contenu-ajout">
+            <form action="{{ path("post_schedule") }}" method="post">
+            </form>
+        </div>-->
+
+        <div class="bandeau">
+            <h3>Les horaires de votre restaurant</h3>
+        </div>
+        <div class="conteneur-blc">
+            <div class="row font-weight-bold" style="padding: 10px 0;">
+                <div class="col-lg-4">
+                    Jour d'ouverture
+                </div>
+                <div class="col-lg-4">
+                    Service 1
+                </div>
+                <div class="col-lg-4">
+                    Service 2
+                </div>
+            </div>
+            {% for sch in schedules %}
+                {% if sch is not empty %}
+                    <div class="row" style="min-height: 50px; line-height: 50px;">
+                        <div class="col-lg-3">
+                            {{ sch.0.dayString }}
+                        </div>
+                        {% for day in sch %}
+                            <div class="col-lg-2" id="sch-{{ sch.0.id }}">
+                                {{ day.hourOpening|date("H:i:s") }} / {{ day.hourClosing|date("H:i:s") }}
+                            </div>
+                            <div class="col-lg-2">
+                                <button id="modif-{{ sch.0.id }}" class="modif-btn btn btn-primary">
+                                    <span class="flaticon-pencil-outline"></span>
+                                </button>
+                                <a href="{{ path("delete_schedule", {"id": sch.0.id}) }}">
+                                    <button id="suppr-{{ sch.0.id }}" class="suppr-btn btn btn-danger">
+                                        <span class="flaticon-rubbish-bin"></span>
+                                    </button>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="bandeau" id="display-ajout" style="margin-top: 20px;">
+            <h3>Ajouter un service</h3>
+        </div>
+        <div class="conteneur-blc" id="contenu-ajout">
+            <form action="{{ path("post_schedule") }}" method="post">
+
+                <div class="form-group">
+                    De :
+                    <select name="dayOpening" class="form-control">
+                        <option value="0">Dimanche</option>
+                        <option value="1">Lundi</option>
+                        <option value="2">Mardi</option>
+                        <option value="3">Mercredi</option>
+                        <option value="4">Jeudi</option>
+                        <option value="5">Vendredi</option>
+                        <option value="6">Samedi</option>
+                    </select>
+                    <input type="time" class="form-control" name="timeOpening" />
+                    à :
+                    <select name="dayClosing" class="form-control">
+                        <option value="0">Dimanche</option>
+                        <option value="1">Lundi</option>
+                        <option value="2">Mardi</option>
+                        <option value="3">Mercredi</option>
+                        <option value="4">Jeudi</option>
+                        <option value="5">Vendredi</option>
+                        <option value="6">Samedi</option>
+                    </select>
+                    <input type="time" class="form-control" name="timeClosing" />
+                </div>
+
+                <div class="zone-btn">
+                    <input type="submit" class="btn btn-success btn-large" value="Ajouter ce service">
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $("#display-ajout").click(function () {
+            $("#contenu-ajout").toggle();
+        });
+
+        $(".modif-btn").click(function () {
+            var id = $(this).attr("id").substr(6);
+            var toModif = $("#sch-" + id);
+            var hour = toModif.text().trim().split(" / ");
+            toModif.html("<input class='form-control' name='hOpen' id='hOpen' type='time' value='" + hour[0] + "' /><input class='form-control' name='hClose' id='hClose' type='time' value='" + hour[1] + "' />");
+            $(this).html('<span class="flaticon-check-mark"></span>');
+            console.log($(this).attr("id"));
+            $(this).removeAttr("id").attr("id", "chk-" + id);
+            $("#chk-" + id).bind("click", function f() {
+                var hOpen = $("#hOpen").val();
+                var hClose = $("#hClose").val();
+                $.post("{{ path("update_schedule") }}", {id:id, timeOpen:hOpen, timeClose:hClose}, function (data) {
+                    document.location.reload();
+                });
+            });
+        })
+    </script>
+{% endblock %}

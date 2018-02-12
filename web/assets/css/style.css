@@ -21,5 +21,21 @@ body {
 }
 .bandeau {
     background: lightslategrey; padding: 10px 10px 0;
-    margin: 0;
+}
+.bandeau h3 {
+    color: white; margin-bottom: 0; padding: 0 5px 10px;
+}
+.conteneur-blc {
+    background: white;
+    padding: 10px;
+}
+.none {
+    display: none;
+}
+.margin-bottom {
+    margin-bottom: 20px;
+}
+.row-no-margin {
+    margin-left: 5px;
+    margin-right: 5px;
 }

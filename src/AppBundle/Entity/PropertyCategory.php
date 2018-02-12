@@ -43,6 +43,13 @@ class PropertyCategory
     private $optionsList;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="is_unique", type="boolean")
+     */
+    private $isUnique;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="opt_grp_is_active", type="boolean")
@@ -173,5 +180,29 @@ class PropertyCategory
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Set isUnique
+     *
+     * @param boolean $isUnique
+     *
+     * @return PropertyCategory
+     */
+    public function setIsUnique($isUnique)
+    {
+        $this->isUnique = $isUnique;
+
+        return $this;
+    }
+
+    /**
+     * Get isUnique
+     *
+     * @return boolean
+     */
+    public function getIsUnique()
+    {
+        return $this->isUnique;
     }
 }

@@ -1,0 +1,101 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/products.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}AppBundle:Property:postProperty{% endblock %}
+
+{% block body %}
+
+    <h1 class="titre-page">Welcome to the Property:postProperty page</h1>
+
+    <div class="container">
+        <div class="form-normal">
+            <div class="form-group">
+
+                <h4>Choisir des groupes de propriétés à associer au produit</h4>
+
+                <form method="post" id="form-prop-prod" action="{{ path('post_product_property', { 'id': idProduct }) }}">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="no-grp" class="custom-control-input" id="prop-grp-no">
+                            <label class="custom-control-label" for="prop-grp-no">
+                                Pas d'options pour ce produit
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group properties-grp">
+                        {% for prop in properties %}
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="grp[]" value="{{ prop.id }}" class="custom-control-input" id="prop-grp-{{ prop.id }}">
+                                    <label class="custom-control-label" for="prop-grp-{{ prop.id }}">
+                                        {{ prop.name }} (
+                                        {% for property in prop.optionsList %}
+                                            {{ property.name }},
+                                        {% endfor %}
+                                        )
+                                    </label>
+                                </div>
+                        {% endfor %}
+                    </div>
+                    <div class="zone-btn" style="text-align: right;">
+                        <button class="btn btn-success">Ajouter ces propriétés au produit</button>
+                    </div>
+                </form>
+
+                <hr>
+                <div id="new-prop">
+                    <form id="form-add-prop">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="prop-unique" class="custom-control-input" id="prop-unique">
+                                <label class="custom-control-label" for="prop-unique">
+                                    Propriété à choix unique
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row row-no-margin">
+                            <div class="return-content-form"></div>
+                            <input class="form-prop-component form-control col-lg-12" type="text" placeholder="Nom du groupe de propriétés (Taille, Sauce..)" name="grp-name" />
+                            <input class="form-prop-component form-control col-lg-4" name="prop-name[]" type="text" placeholder="Nom de la propriété (Petite, Grande, Mayonnaise, Ketchup..)"/>
+                            <input class="form-prop-component form-control col-lg-4" name="prop-name[]" type="text" placeholder="Nom de la propriété (Petite, Grande, Mayonnaise, Ketchup..)"/>
+                            <input class="form-prop-component form-control col-lg-4" name="prop-name[]" type="text" placeholder="Nom de la propriété (Petite, Grande, Mayonnaise, Ketchup..)"/>
+                        </div>
+                        <div class="zone-btn margin-bottom">
+                            <button type="submit" class="btn btn-primary">Ajouter ce groupe</button>
+                        </div>
+                    </form>
+                </div>
+                <button id="btn-new-grp" class="btn btn-primary">+ Nouveau</button>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $("#btn-new-grp").click(function () {
+            var div = $("#new-prop");
+            if (div.css("display") == "none"){
+                div.show();
+                $(this).removeClass("btn-primary").addClass("btn-danger").text("- Cacher");
+            }else{
+                div.hide();
+                $(this).removeClass("btn-danger").addClass("btn-primary").text("+ Nouveau");
+            }
+        });
+
+        $("#form-add-prop").submit(function (e) {
+            e.preventDefault();
+            var form_data = $(this).serialize();
+            $.post("{{ path('post_property', { 'id': idProduct }) }}", form_data, function (data) {
+                $(".form-prop-component").val("");
+                $(".properties-grp").append(data).slideDown();
+                spinner.stop();
+            });
+        })
+    </script>
+{% endblock %}
