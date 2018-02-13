@@ -22,6 +22,7 @@ class PropertyController extends Controller
     public function postPropertyAction($id, Request $request)
     {
         $properties = $this->getDoctrine()->getRepository("AppBundle:PropertyCategory")->findAll();
+        $product = $this->getDoctrine()->getRepository("AppBundle:Product")->find($id);
         $em = $this->get("doctrine.orm.entity_manager");
         if ($request->get("grp-name") != null){
             $name = $request->get("grp-name");
@@ -35,34 +36,39 @@ class PropertyController extends Controller
             $propertyGrp->setIsUnique($unique);
             $em->persist($propertyGrp);
             if ($request->get("prop-name") != null) {
-                foreach ($request->get("prop-name") as $prop) {
-                    $property = new Property();
-                    $property->setName($prop);
-                    $property->setIsActive(true);
-                    $property->setIsSoldOut(false);
-                    $property->setOptionGroup($propertyGrp);
-                    $property->setPrice(0);
-                    $em->persist($property);
-                }
-                $em->flush();
-                $html = '<div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="prop-grp-'.$propertyGrp->getId().'">
-                                <label class="custom-control-label" for="prop-grp-'.$propertyGrp->getId().'">
-                                    '.$name.' ( ';
-                foreach ($request->get("prop-name") as $prop) {
-                    $html .= $prop . ",";
-                }
-                $html .= ')
+                if (count($request->get("prop-name")) == count($request->get("prop-prix"))) {
+                    foreach ($request->get("prop-name") as $k => $prop) {
+                        $price = floatval($request->get("prop-prix")[$k]);
+                        $property = new Property();
+                        $property->setName($prop);
+                        $property->setIsActive(true);
+                        $property->setIsSoldOut(false);
+                        $property->setOptionGroup($propertyGrp);
+                        $property->setPrice($price);
+                        $em->persist($property);
+                    }
+                    $em->flush();
+                    $html = '<div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="prop-grp-' . $propertyGrp->getId() . '">
+                                <label class="custom-control-label" for="prop-grp-' . $propertyGrp->getId() . '">
+                                    ' . $name . ' ( ';
+                    foreach ($request->get("prop-name") as $prop) {
+                        $html .= $prop . ", ";
+                    }
+                    $html .= ')
                                 </label>
                             </div>';
-                return new Response($html, 200);
+                    return new Response($html, 200);
+                }else{
+                    return new Response("Une erreur est survenue, vous devez saisir le prix supplémentaire pour chacune des propriétés.");
+                }
             }else{
-                return new Response("Une erreur est survenue, vous devez saisir au moins 2 propriétés pour ajouter un groupe.", 400);
+                return new Response("Une erreur est survenue, vous devez saisir au moins 2 propriétés pour ajouter un groupe.");
             }
         }else {
             return $this->render('AppBundle:Property:post_property.html.twig', array(
                 "properties" => $properties,
-                "idProduct" => $id
+                "product" => $product
             ));
         }
     }

@@ -8,18 +8,18 @@
 
 {% block body %}
 
-    <h1 class="titre-page">Welcome to the Property:postProperty page</h1>
+    <h1 class="titre-page">Ajouter des propriétés au produit : {{ product.name }}</h1>
 
     <div class="container">
         <div class="form-normal">
             <div class="form-group">
 
-                <h4>Choisir des groupes de propriétés à associer au produit</h4>
+                <h4 class="margin-bottom">Choisir des groupes de propriétés à associer au produit</h4>
 
-                <form method="post" id="form-prop-prod" action="{{ path('post_product_property', { 'id': idProduct }) }}">
+                <form method="post" id="form-prop-prod" action="{{ path('post_product_property', { 'id': product.id }) }}">
                     <div class="form-group">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" name="no-grp" class="custom-control-input" id="prop-grp-no">
+                            <input type="checkbox" name="no-grp" class="custom-control-input" id="prop-grp-no" checked>
                             <label class="custom-control-label" for="prop-grp-no">
                                 Pas d'options pour ce produit
                             </label>
@@ -28,7 +28,7 @@
                     <div class="form-group properties-grp">
                         {% for prop in properties %}
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="grp[]" value="{{ prop.id }}" class="custom-control-input" id="prop-grp-{{ prop.id }}">
+                                    <input type="checkbox" name="grp[]" value="{{ prop.id }}" class="custom-control-input in-grp" id="prop-grp-{{ prop.id }}">
                                     <label class="custom-control-label" for="prop-grp-{{ prop.id }}">
                                         {{ prop.name }} (
                                         {% for property in prop.optionsList %}
@@ -40,7 +40,7 @@
                         {% endfor %}
                     </div>
                     <div class="zone-btn" style="text-align: right;">
-                        <button class="btn btn-success">Ajouter ces propriétés au produit</button>
+                        <button class="btn btn-success"><span class="flaticon-check-mark"></span> Ajouter ces propriétés au produit</button>
                     </div>
                 </form>
 
@@ -51,19 +51,28 @@
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" name="prop-unique" class="custom-control-input" id="prop-unique">
                                 <label class="custom-control-label" for="prop-unique">
-                                    Propriété à choix unique
+                                    Propriétés à choix unique
                                 </label>
                             </div>
                         </div>
-                        <div class="row row-no-margin">
-                            <div class="return-content-form"></div>
-                            <input class="form-prop-component form-control col-lg-12" type="text" placeholder="Nom du groupe de propriétés (Taille, Sauce..)" name="grp-name" />
-                            <input class="form-prop-component form-control col-lg-4" name="prop-name[]" type="text" placeholder="Nom de la propriété (Petite, Grande, Mayonnaise, Ketchup..)"/>
-                            <input class="form-prop-component form-control col-lg-4" name="prop-name[]" type="text" placeholder="Nom de la propriété (Petite, Grande, Mayonnaise, Ketchup..)"/>
-                            <input class="form-prop-component form-control col-lg-4" name="prop-name[]" type="text" placeholder="Nom de la propriété (Petite, Grande, Mayonnaise, Ketchup..)"/>
+                        <div id="inputs-div">
+                            <div class="row row-no-margin">
+                                <input required class="form-prop-component form-control col-lg-12" type="text" placeholder="Nom du groupe de propriétés (Taille, Sauce..)" name="grp-name" />
+                            </div>
+                            <div class="row row-no-margin">
+                                <input required class="form-prop-component form-control col-lg-8" name="prop-name[]" type="text" placeholder="Nom de la propriété (Petite, Grande, Mayonnaise, Ketchup..)"/>
+                                <input required class="form-prop-component-price form-control col-lg-2" name="prop-prix[]" value="0" type="number" step="0.25" placeholder="Prix de la propriété"/>
+                                <div class="col-lg-1">€</div>
+                            </div>
+                            <div class="row row-no-margin">
+                                <input required class="form-prop-component form-control col-lg-8" name="prop-name[]" type="text" placeholder="Nom de la propriété (Petite, Grande, Mayonnaise, Ketchup..)"/>
+                                <input required class="form-prop-component-price form-control col-lg-2" name="prop-prix[]" value="0" type="number" step="0.25" placeholder="Prix de la propriété"/>
+                                <div class="col-lg-1">€</div>
+                            </div>
                         </div>
-                        <div class="zone-btn margin-bottom">
-                            <button type="submit" class="btn btn-primary">Ajouter ce groupe</button>
+                        <div class="zone-btn" style="margin-top: 20px;">
+                            <button id="btn-more-prop" class="btn btn-primary" type="button">+ de propriétés</button>
+                            <button id="btn-add-new-prop" type="submit" class="btn btn-success">Ajouter ce groupe</button>
                         </div>
                     </form>
                 </div>
@@ -91,11 +100,27 @@
         $("#form-add-prop").submit(function (e) {
             e.preventDefault();
             var form_data = $(this).serialize();
-            $.post("{{ path('post_property', { 'id': idProduct }) }}", form_data, function (data) {
+            $.post("{{ path('post_property', { 'id': product.id }) }}", form_data, function (data) {
                 $(".form-prop-component").val("");
+                $(".form-prop-component-price").val("0");
                 $(".properties-grp").append(data).slideDown();
-                spinner.stop();
             });
+        });
+
+        $("#btn-more-prop").click(function () {
+            $("#inputs-div").append('<div class="row row-no-margin"><input required class="form-prop-component form-control col-lg-8" name="prop-name[]" type="text" placeholder="Nom de la propriété (Petite, Grande, Mayonnaise, Ketchup..)"/> ' +
+                '<input required class="form-prop-component form-control col-lg-2" name="prop-prix[]" value="0" type="number" step="0.25" placeholder="Prix de la propriété"/> ' +
+                '<div class="col-lg-1">€</div>' +
+                '<button class="btn btn-danger col-lg-1 btn-men-prop" onclick="$(this).parent().hide()" type="button"><span class="flaticon-rubbish-bin"></span> </button></div>');
+        });
+
+        $("#prop-grp-no").change(function () {
+            $(".in-grp").prop("checked", false);
         })
+
+        $(".in-grp").change(function () {
+            $("#prop-grp-no").prop("checked", false);
+        })
+
     </script>
 {% endblock %}

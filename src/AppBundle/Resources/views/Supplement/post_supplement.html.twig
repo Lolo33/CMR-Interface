@@ -1,7 +1,118 @@
 {% extends "::base.html.twig" %}
 
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/products.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block title %}AppBundle:Supplement:postSupplement{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Supplement:postSupplement page</h1>
+
+    <h1 class="titre-page">Ajouter des suppléments au produit : {{ product.name }} </h1>
+
+    <div class="container">
+        <div class="form-normal">
+            <div class="form-group">
+
+                <h4 class="margin-bottom">Choisir des groupes de propriétés à associer au produit</h4>
+
+                <form method="post" id="form-prop-prod" action="{{ path('post_product_supplement', { 'id': product.id }) }}">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="no-grp" class="custom-control-input" id="prop-grp-no" checked>
+                            <label class="custom-control-label" for="prop-grp-no">
+                                Pas de suppléments pour ce produit
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group properties-grp">
+                        {% for sup in supplements %}
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="grp[]" value="{{ sup.id }}" class="custom-control-input in-grp" id="prop-grp-{{ sup.id }}">
+                                <label class="custom-control-label" for="prop-grp-{{ sup.id }}">
+                                    {{ sup.name }} (
+                                    {% for supplement in sup.supplements %}
+                                        {{ supplement.name }},
+                                    {% endfor %}
+                                    )
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="zone-btn" style="text-align: right;">
+                        <button class="btn btn-success"><span class="flaticon-check-mark"></span> Ajouter ces suppléments au produit</button>
+                    </div>
+                </form>
+
+                <hr>
+                <div id="new-prop">
+                    <form id="form-add-prop">
+                        <div id="inputs-div">
+                            <div class="row row-no-margin">
+                                <input required class="form-prop-component form-control col-lg-12" type="text" placeholder="Nom du groupe de suppléments (Suppléments pizza, suppléments salade...)" name="grp-name" />
+                            </div>
+                            <div class="row row-no-margin">
+                                <input required class="form-prop-component form-control col-lg-8" name="sup-name[]" type="text" placeholder="Nom du supplément (Reblochon, olives, anchois...)"/>
+                                <input required class="form-prop-component-price form-control col-lg-2" name="sup-prix[]" value="0" type="number" step="0.25" placeholder="Prix du supplément"/>
+                                <div class="col-lg-1">€</div>
+                            </div>
+                            <div class="row row-no-margin">
+                                <input required class="form-prop-component form-control col-lg-8" name="sup-name[]" type="text" placeholder="Nom du supplément (Reblochon, olives, anchois...)"/>
+                                <input required class="form-prop-component-price form-control col-lg-2" name="sup-prix[]" value="0" type="number" step="0.25" placeholder="Prix du supplément"/>
+                                <div class="col-lg-1">€</div>
+                            </div>
+                        </div>
+                        <div class="zone-btn" style="margin-top: 20px;">
+                            <button id="btn-more-prop" class="btn btn-primary" type="button">+ de suppléments</button>
+                            <button id="btn-add-new-prop" type="submit" class="btn btn-success">Ajouter ce groupe</button>
+                        </div>
+                    </form>
+                </div>
+                <button id="btn-new-grp" class="btn btn-primary">+ Nouveau</button>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $("#btn-new-grp").click(function () {
+            var div = $("#new-prop");
+            if (div.css("display") == "none"){
+                div.show();
+                $(this).removeClass("btn-primary").addClass("btn-danger").text("- Cacher");
+            }else{
+                div.hide();
+                $(this).removeClass("btn-danger").addClass("btn-primary").text("+ Nouveau");
+            }
+        });
+
+        $("#form-add-prop").submit(function (e) {
+            e.preventDefault();
+            var form_data = $(this).serialize();
+            $.post("{{ path('post_supplement', { 'id': product.id }) }}", form_data, function (data) {
+                $(".form-prop-component").val("");
+                $(".form-prop-component-price").val("0");
+                $(".properties-grp").append(data).slideDown();
+            });
+        });
+
+        $("#btn-more-prop").click(function () {
+            $("#inputs-div").append('<div class="row row-no-margin"><input required class="form-prop-component form-control col-lg-8" name="sup-name[]" type="text" placeholder="Nom du supplément (Reblochon, olives, anchois...)"/> ' +
+                '<input required class="form-prop-component form-control col-lg-2" name="sup-prix[]" value="0" type="number" step="0.25" placeholder="Prix du supplément"/> ' +
+                '<div class="col-lg-1">€</div>' +
+                '<button class="btn btn-danger col-lg-1 btn-men-prop" onclick="$(this).parent().hide()" type="button"><span class="flaticon-rubbish-bin"></span> </button></div>');
+        });
+
+        $("#prop-grp-no").change(function () {
+            $(".in-grp").prop("checked", false);
+        })
+
+        $(".in-grp").change(function () {
+            $("#prop-grp-no").prop("checked", false);
+        })
+
+    </script>
 {% endblock %}
